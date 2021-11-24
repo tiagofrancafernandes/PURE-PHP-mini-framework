@@ -27,4 +27,4 @@
 
 ## Licença
 
-Este projeto é LIVRE. Estou optando por utilizar a licença [MIT](LICENCE)
+Este projeto é LIVRE. Estou optando por utilizar a licença [MIT](LICENSE)
