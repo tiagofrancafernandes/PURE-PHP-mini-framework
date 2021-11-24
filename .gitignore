@@ -1,0 +1,8 @@
+/*.zip
+/vendor
+.env
+*.local*
+*ignore-it*
+error_log
+*.log
+/.vscode
