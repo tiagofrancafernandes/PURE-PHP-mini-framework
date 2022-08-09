@@ -6,6 +6,6 @@ class IndexController
 {
     public function __invoke()
     {
-        return 'Hello world!!';
+        return view('fakes.index');
     }
 }

@@ -2,7 +2,8 @@
     "require": {
         "symfony/var-dumper": "^5.3",
         "vlucas/phpdotenv": "^5.4",
-        "devcoder-xyz/php-router": "^1.2"
+        "devcoder-xyz/php-router": "^1.2",
+        "beebmx/blade": "^1.5"
     },
     "autoload": {
         "psr-4": {
@@ -10,7 +11,8 @@
             "Core\\": "Core/"
         },
         "files": [
-            "Resources/functions/global_functions.php"
+            "Resources/functions/global_functions.php",
+            "vendor/illuminate/support/helpers.php"
         ]
     }
 }

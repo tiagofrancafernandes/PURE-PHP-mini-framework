@@ -5,6 +5,7 @@ namespace Core;
 class Immutable
 {
     protected array $parts = [];
+    protected array $readOnly = [];
 
     public function __construct()
     {
@@ -16,14 +17,19 @@ class Immutable
      *
      * @param string $part
      * @param mixed $value
+     * @param bool $readOnly
      * @return void
      */
-    public function put(string $part, $value): self
+    public function put(string $part, $value, bool $readOnly = false): self
     {
         if (isset($this->parts[$part])) {
             $clone = $this->clone();
             $clone->parts[$part] = $value;
             return $clone;
+        }
+
+        if ($readOnly) {
+            $this->readOnly[] = $part;
         }
 
         $this->parts[$part] = $value;
@@ -40,6 +46,10 @@ class Immutable
      */
     public function get(string $part, $default = null)
     {
+        if (\in_array($part, $this->readOnly, \true)) {
+            return $this->readOnly($part, $default);
+        }
+
         return $this->parts[$part] ?? $default ?? null;
     }
 
@@ -52,9 +62,9 @@ class Immutable
      */
     public function readOnly(string $part, $default = null)
     {
-        $clone = clone $this->parts[$part] ?? $default ?? null;
+        $clone = $this->clone();
 
-        return $clone;
+        return $clone->parts[$part] ?? $default ?? null;
     }
 
     /**

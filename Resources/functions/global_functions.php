@@ -2,6 +2,8 @@
 
 use App\Helpers\URL;
 use Core\Immutable;
+use Jenssegers\Blade\Blade;
+use Illuminate\Support\Arr;
 
 if (!function_exists('url'))
 {
@@ -21,6 +23,7 @@ if (!function_exists('asset'))
 
 if (!function_exists('env'))
 {
+    //vendor/illuminate/support/helpers.php ~ 123
     function env(string $key, $default = null, $must_be_type = null)
     {
         $value = ($_ENV[$key] ?? null);
@@ -85,5 +88,47 @@ if (!function_exists('app'))
         };
 
         return $app();
+    }
+}
+
+if (!function_exists('blade'))
+{
+    function blade(): Blade
+    {
+        return app()->get('blade');
+    }
+}
+
+if (!function_exists('view'))
+{
+    function view(string $view, array $data = [], array $mergeData = []): string
+    {
+        return app()->get('blade')->render($view, $data, $mergeData);
+    }
+}
+
+if (!function_exists('config'))
+{
+    /**
+     * Get the specified configuration value.
+     *
+     * @param  array|string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function config($key, $default = null): mixed
+    {
+        return app()->get('config')->get($key, $default);
+    }
+}
+
+if (!function_exists('arr'))
+{
+    /**
+     * @return \Illuminate\Support\Arr
+     */
+    function arr(): arr
+    {
+        return new Arr;
     }
 }
