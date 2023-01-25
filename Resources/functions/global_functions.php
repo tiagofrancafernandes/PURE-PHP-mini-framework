@@ -55,39 +55,7 @@ if (!function_exists('app'))
 {
     function app(): Immutable
     {
-        $appClone = function(): Immutable {
-
-            if (
-                !($GLOBALS['appClone'] ?? null) || !(($GLOBALS['appClone'] ?? null) instanceof Immutable)
-            ) {
-                $GLOBALS['appClone'] = new Immutable();
-            }
-
-            return $GLOBALS['appClone'] ?? new Immutable();
-        };
-
-        $app = function() use($appClone) : Immutable {
-            if (!($GLOBALS['app'] ?? null)) {
-                $GLOBALS['app'] = $appClone();
-                return $GLOBALS['app'] ?? new Immutable();
-            }
-
-            if (($GLOBALS['app'] ?? null) instanceof Immutable) {
-                if (
-                    !($GLOBALS['appClone'] ?? null) ||
-                    !(($GLOBALS['appClone'] ?? null) instanceof Immutable)
-                ) {
-                    $GLOBALS['appClone'] = clone $GLOBALS['app'];
-                }
-
-                return $GLOBALS['app'] ?? new Immutable();
-            }
-
-            $GLOBALS['app'] = $appClone();
-            return $GLOBALS['app'] ?? new Immutable();
-        };
-
-        return $app();
+        return \Core\Application\Boot\Init::app();
     }
 }
 

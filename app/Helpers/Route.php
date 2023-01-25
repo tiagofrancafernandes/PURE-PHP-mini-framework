@@ -5,14 +5,21 @@ namespace App\Helpers;
 class Route
 {
     /**
-     * make function
+     * Route constructor.
+     * @param string $name
+     * @param string $path
+     * @param mixed $handler
+     *    $handler = [
+     *      0 => (string) Controller name : HomeController::class.
+     *      1 => (string|null) Method name or null if invoke method
+     *    ]
+     * @param array $methods
      *
-     * @param ...$params
      * @return \DevCoder\Route
      */
-    public static function make(...$params)
+    public static function make(string $name, string $path, $handler, array $methods = ['GET'])
     {
-        return new \DevCoder\Route(...$params);
+        return new \DevCoder\Route($name, $path, $handler, $methods);
     }
 
     /**

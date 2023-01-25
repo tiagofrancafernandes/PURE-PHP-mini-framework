@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Core\Http\Response\Response;
+
 class ArticleController
 {
     public function getAll()
     {
-        // db get all post
-        return json_encode([
+        // get all post on DB
+        Response::json([
             ['id' => 1],
             ['id' => 2],
             ['id' => 3]
@@ -16,19 +18,19 @@ class ArticleController
 
     public function get(int $id)
     {
-        // db get post by id
-        return json_encode(['id' => $id]);
+        // get post by id on DB
+        Response::json(['id' => $id]);
     }
 
     public function put(int $id)
     {
-        // db edited post by id
-        return json_encode(['id' => $id]);
+        // edited post by id on DB
+        Response::json(['id' => $id]);
     }
 
     public function post()
     {
-        // db create post
-        return json_encode(['id' => 4]);
+        // create post on DB
+        Response::json(['id' => 4]);
     }
 }

@@ -1,8 +1,24 @@
 <?php
 
-$dotenv = \Dotenv\Dotenv::createImmutable(
-    __DIR__ . '/../'
-);
+use Core\Application\Boot\Init;
+use Core\Immutable;
+
+require_once __DIR__ . '/../Init.php';
+
+$dot = function (Immutable $app) {
+    $dotenvInstance = $app->get('env');
+    if (!$dotenvInstance || !is_object($dotenvInstance) || get_class($dotenvInstance) != \Dotenv\Dotenv::class) {
+        $dotenvInstance = \Dotenv\Dotenv::createImmutable(
+            __DIR__ . '/../../../../'
+        );
+
+        $app->put('env', $dotenvInstance, true);
+    }
+
+    return $dotenvInstance;
+};
+
+$dotenv = $dot(Init::app());
 
 $dotenv->safeLoad();
 
