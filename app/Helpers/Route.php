@@ -54,4 +54,28 @@ class Route
     {
         return \DevCoder\Route::put(...$params);
     }
+
+    /**
+     * byRouteName function
+     *
+     * @param string $name
+     * @param array $parameters
+     *
+     * @return string
+     */
+    public static function byRouteName(string $name, array $parameters = []): string
+    {
+        try {
+            $router = new \DevCoder\Router(require __DIR__ . '/../../routes.php');
+
+            return $router->generateUri($name, $parameters);
+        } catch (\Throwable $th) {
+            if (\config('app.env') === 'production') {
+                \Core\Http\Response\Response::errorPage($th->getMessage());
+                die();
+            }
+
+            throw $th;
+        }
+    }
 }

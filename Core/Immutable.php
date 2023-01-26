@@ -42,7 +42,7 @@ class Immutable
      *
      * @param string $part
      * @param mixed $default
-     * @return void
+     * @return mixed
      */
     public function get(string $part, $default = null)
     {

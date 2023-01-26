@@ -1,9 +1,11 @@
 <?php
 
-use App\Helpers\URL;
 use Core\Immutable;
-use Jenssegers\Blade\Blade;
+use App\Helpers\URL;
 use Illuminate\Support\Arr;
+// use Jenssegers\Blade\Blade;
+use Beebmx\Blade\Blade;
+use Core\Application\Boot\Init;
 
 if (!function_exists('url'))
 {
@@ -55,7 +57,7 @@ if (!function_exists('app'))
 {
     function app(): Immutable
     {
-        return \Core\Application\Boot\Init::app();
+        return Init::app();
     }
 }
 
@@ -63,7 +65,7 @@ if (!function_exists('blade'))
 {
     function blade(): Blade
     {
-        return app()->get('blade');
+        return Init::app()->get('blade');
     }
 }
 
@@ -71,7 +73,7 @@ if (!function_exists('view'))
 {
     function view(string $view, array $data = [], array $mergeData = []): string
     {
-        return app()->get('blade')->render($view, $data, $mergeData);
+        return Init::app()->get('blade')->render($view, $data, $mergeData);
     }
 }
 
@@ -86,7 +88,7 @@ if (!function_exists('config'))
      */
     function config($key, $default = null): mixed
     {
-        return app()->get('config')->get($key, $default);
+        return Init::app()->get('config')->get($key, $default);
     }
 }
 
@@ -98,5 +100,21 @@ if (!function_exists('arr'))
     function arr(): arr
     {
         return new Arr;
+    }
+}
+
+if (!function_exists('byRouteName')) {
+
+    /**
+     * byRouteName function
+     *
+     * @param string $name
+     * @param array $parameters
+     *
+     * @return string
+     */
+    function byRouteName(string $name, array $parameters = []): string
+    {
+        return \App\Helpers\Route::byRouteName($name, $parameters);
     }
 }

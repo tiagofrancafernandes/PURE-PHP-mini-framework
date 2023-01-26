@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace Core\Application\Boot;
 
 use Core\Immutable;
-use Jenssegers\Blade\Blade;
+// use Jenssegers\Blade\Blade;
+use Beebmx\Blade\Blade;
 use Illuminate\Config\Repository;
 
 class Init
@@ -13,7 +14,6 @@ class Init
 
     public function __construct(string $basePath)
     {
-        $this->loadFiles($basePath);
         $this->app = $this->app ?? $this->app();
     }
 
@@ -23,20 +23,18 @@ class Init
      * @param string $basePath
      * @return void
      */
-    public function loadFiles(string $basePath): void
+    protected static function loadFiles(Immutable $app, string $basePath): void
     {
-        require_once $basePath . '/vendor/autoload.php';
-
         require_once __DIR__ . '/files/dot.php';
         $config = require __DIR__ . '/files/config.php';
 
-        app()->put('config', (new Repository($config)), true);
+        $app->put('config', (new Repository($config)), true);
 
-        app()->put(
+        $app->put(
             'blade',
             new Blade(
-                config('app.views'),
-                config('storage.cache')
+                $app->get('config')->get('app.views'),
+                $app->get('config')->get('storage.cache')
             ),
             true
         );
@@ -49,6 +47,9 @@ class Init
      */
     public static function app(): Immutable
     {
+        $basePath = __DIR__ . '/../../..';
+        require_once $basePath . '/vendor/autoload.php';
+
         $appClone = function(): Immutable {
 
             if (
@@ -80,6 +81,8 @@ class Init
             $GLOBALS['app'] = $appClone();
             return $GLOBALS['app'] ?? new Immutable();
         };
+
+        static::loadFiles($app(), $basePath);
 
         return $app();
     }

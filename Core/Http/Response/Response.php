@@ -104,4 +104,37 @@ class Response
 
         header("{$key}: {$value}", true);
     }
+
+    /**
+     * function errorPage
+     *
+     * @param string $errorTitle
+     * @param string $message
+     * @param int $httpCode
+     * @param string $viewName
+     *
+     * @return void
+     */
+    public static function errorPage(
+        string $message,
+        string $errorTitle = 'Server error',
+        int $httpCode = 500,
+        string $viewName = ''
+    ): void {
+        if ($httpCode >= 500) {
+            header("HTTP/1.0 500 Server error");
+        }
+
+        \http_response_code($httpCode);
+        print view(
+            $viewName ?: 'errors.500',
+            [
+                'errorTitle' => $errorTitle,
+                'httpCode' => $httpCode,
+                'message' => $message,
+            ]
+        );
+
+        die();
+    }
 }

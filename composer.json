@@ -3,7 +3,7 @@
         "symfony/var-dumper": "^5.3",
         "vlucas/phpdotenv": "^5.4",
         "devcoder-xyz/php-router": "^1.2",
-        "beebmx/blade": "^1.5"
+        "beebmx/blade": "^1.4|^1.5"
     },
     "autoload": {
         "psr-4": {
